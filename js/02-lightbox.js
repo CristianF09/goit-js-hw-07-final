@@ -1,49 +1,43 @@
 import { galleryItems } from './gallery-items.js';
 
-// Funcția pentru crearea și randarea elementelor galeriei
+// Function to create and render gallery items
 function renderGalleryItems() {
     const gallery = document.querySelector('.gallery');
 
     galleryItems.forEach(item => {
-        // Crearea elementului <li> pentru fiecare imagine
+        // Create <li> element for each image
         const galleryItem = document.createElement('li');
         galleryItem.classList.add('gallery__item');
 
-        // Crearea elementului <a> pentru linkul imaginii mari
+        // Create <a> element for the large image link
         const link = document.createElement('a');
         link.classList.add('gallery__link');
-        link.href = item.large;
+        link.href = item.original; // Use 'original' for large image link
 
-        // Crearea elementului <img> pentru imaginea mică
+        // Create <img> element for the small image
         const image = document.createElement('img');
         image.classList.add('gallery__image');
-        image.src = item.small;
-        image.alt = item.description; // Textul alternativ al imaginii
+        image.src = item.preview; // Use 'preview' for small image
+        image.alt = item.description; // Set alt text for the image
 
-        // Adăugarea imaginii în link și a linkului în elementul galeriei
+        // Append the image to the link and the link to the gallery item
         link.appendChild(image);
         galleryItem.appendChild(link);
 
-        // Adăugarea elementului galeriei în lista de galerie
+        // Append the gallery item to the gallery list
         gallery.appendChild(galleryItem);
-
-        // Adăugarea clasei 'gallery__caption' pe elementul <img>
-        image.classList.add('gallery__caption');
     });
 
-    // Inițializarea SimpleLightbox după ce toate elementele sunt adăugate
+    // Initialize SimpleLightbox after all elements are added
     const lightbox = new SimpleLightbox('.gallery a', {
-        captionsData: 'alt',       // Utilizăm textul din atributul alt pentru sugestii
-        captionPosition: 'bottom', // Poziționăm sugestia în partea de jos a imaginii
-        captionDelay: 250,         // Afișăm sugestia la 250ms după deschiderea imaginii
-        close: true,
-        closeText: '&times;',
-        alertError: false,
+        captionsData: 'alt',       // Use the alt attribute for captions
+        captionPosition: 'bottom', // Position the caption at the bottom
+        captionDelay: 250,         // Delay the caption display by 250ms
     });
 
-    // Actualizarea SimpleLightbox după adăugarea elementelor
+    // Refresh SimpleLightbox to ensure it captures all newly added elements
     lightbox.refresh();
 }
 
-// Apelarea funcției de randare a galeriei când documentul HTML este complet încărcat
+// Call the render function when the HTML document is fully loaded
 document.addEventListener('DOMContentLoaded', renderGalleryItems);
